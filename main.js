@@ -12,50 +12,99 @@ Run the command 'mocha' to test. Tests check for expected output and absence of 
 
 module.exports = {
 
-  sum: (arr, base) => {
-    let sum = base;
-    for (var i = 0; i < arr.length; i++){
-      sum += arr[i];
-    }
-    return sum;
+  // sum: (arr, base) => {     //Reduce HOF
+  //   let sum = base;
+  //   for (var i = 0; i < arr.length; i++){
+  //     sum += arr[i];
+  //   }
+  //   return sum;
+  // },
+
+  sum: (array, startingPoint) => {
+    var total = array.reduce( function(sum, amount) {
+      return sum += amount;
+    }, startingPoint);
+
+    return total;
   },
+
+
+  // someObjsContainProp: (arr, prop) => {   //filter
+  //   for(var i = 0; i < arr.length; i++){
+  //     if(arr[i].hasOwnProperty(prop)){
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // },
 
   someObjsContainProp: (arr, prop) => {
-    for(var i = 0; i < arr.length; i++){
-      if(arr[i].hasOwnProperty(prop)){
-        return true;
-      }
+   var newArray = arr.filter(function(currentValue){
+     return currentValue.hasOwnProperty(prop);
+   });
+
+    if (newArray.length > 0) {
+      return true;
     }
-    return false;
+    else {
+      return false;
+    }
   },
 
+  // convertNameArrayToObject: (arr) => {  //reduce
+  //   let nameObj = [];
+  //   for(var i = 0; i < arr.length; i++){
+  //     let obj = {};
+  //     obj.first = arr[i][0];
+  //     obj.last = arr[i][1];
+  //     nameObj.push(obj);
+  //   }
+  //   return nameObj;
+  // },
+
   convertNameArrayToObject: (arr) => {
-    let nameObj = [];
-    for(var i = 0; i < arr.length; i++){
-      let obj = {};
-      obj.first = arr[i][0];
-      obj.last = arr[i][1];
-      nameObj.push(obj);
-    }
+    var final = [];
+    var nameObj = arr.reduce(function (total, currentValue){
+      var obj = {};
+      obj.first = currentValue[0];
+      obj.last = currentValue[1];
+      return total.concat([obj]);
+    }, final);
+
     return nameObj;
   },
 
+
   objContainsProp: (arr, prop) => {
-    for (var i = 0; i < arr.length; i++){
-      if(!arr[i].hasOwnProperty(prop)){
-        return false;
+    var response;
+    arr.filter(function(currentValue) {
+      if(!currentValue.hasOwnProperty(prop)) {
+        response = false;
+        return
       }
-    }
-    return true;
+      response = true;
+    });
+    return response;
   },
 
+    // objContainsProp: (arr, prop) => {
+    // for (var i = 0; i < arr.length; i++){
+    //   if(!arr[i].hasOwnProperty(prop)){
+    //     return false;
+    //   }
+    // }
+    // return true;
+    // },
+
+
+
+
+
   stringMatch: (arr, str) => {
-    let matches = [];
-    for(var i = 0; i < arr.length; i++){
-      if (arr[i].includes(str)){
-        matches.push(arr[i]);
-      }
-    }
+    var matches = arr.filter(function(currentValue) {
+      return currentValue.includes(str);
+    });
     return matches;
-  },
-};
+  }
+
+}
